@@ -37,7 +37,7 @@
     *,*::before,*::after {
         box-sizing: border-box;
     }
-    li,h3,img,ul,li,input{
+    li,h3,img,ul,li,input,h2,p,fieldset{
         padding: 0;
         margin: 0;
     }
@@ -48,6 +48,13 @@
     li{
         list-style: none;
     }
+    a{
+        text-decoration: none;
+        
+    }
+    a:focus{
+        text-decoration: none
+        }
     #app {
         height: 100%;
         & > main {

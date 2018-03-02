@@ -3,7 +3,7 @@
       <div>
           <h3>新书上架</h3>
           <ul>
-              <li v-for="booklist in newBookList" :key="booklist.id">
+              <li v-for="(booklist,index) in newBookList" :key="booklist.id" @click="$emit('detail',index,'newBookList')">
                   <img :src="booklist.img">
                   <p class="name">{{booklist.name}}</p>
                   <p class="price">￥ {{booklist.price}}</p>
@@ -13,7 +13,7 @@
       <div>
           <h3>编辑推荐</h3>
           <ul>
-              <li v-for="booklist in editorBookList" :key="booklist.id">
+              <li v-for="(booklist,index) in editorBookList" :key="booklist.id" @click="$emit('detail',index,'editorBookList')">
                   <img :src="booklist.img">
                   <p class="name">{{booklist.name}}</p>
                   <p class="price">￥ {{booklist.price}}</p>
@@ -23,7 +23,7 @@
       <div>
           <h3>热门新书</h3>
           <ul>
-              <li v-for="booklist in hotBookList" :key="booklist.id">
+              <li v-for="(booklist,index) in hotBookList" :key="booklist.id" @click="$emit('detail',index,'hotBookList')">
                   <img :src="booklist.img">
                   <p class="name">{{booklist.name}}</p>
                   <p class="price">￥ {{booklist.price}}</p>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    export default{
+    export default {
         name:"BookList",
         props:["newBookList","editorBookList","hotBookList"],
         data(){

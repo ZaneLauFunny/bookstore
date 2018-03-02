@@ -22,7 +22,15 @@
         :newBookList="newBookList"
         :editorBookList="editorBookList" 
         :hotBookList="hotBookList"
+        @detail="showDetail"
         />
+        <transition name="fade">
+        <describe
+        :bookshow = bookDetail
+        @close="closeDetail"
+        v-if="show"
+        />
+        </transition>
     </div>
 </template>
 
@@ -30,19 +38,23 @@
     import 'swiper/dist/css/swiper.css'
     import Swiper from 'swiper'
     import BookList from "./BookList.vue"
+    import Describe from "./Describe.vue"
+    import DetailsPage from "./DetailsPage.vue"
     export default {
         name: 'Home',
         components:{
-            BookList
+            BookList,
+            Describe
         },
         data() {
-            
             return {
                 advertisement:'双12全场图书低至1折，更有隐藏神秘惊喜',
                 newBookList:[],
                 editorBookList:[],
-                hotBookList:[]
-                
+                hotBookList:[],
+                index: "",
+                bookDetail:{},
+                show:false
             }
         },
         methods:{
@@ -66,19 +78,40 @@
             },
             showBookList() {
             // 使用axios进行数据请求
-            axios.get('../../../static/HomeData.json')
-            .then( (res) => {
-                // 如果请求成功，将bookList空数组替换为请求到的数组
-                this.newBookList = res.data.new;
-                this.editorBookList = res.data.editor;
-                this.hotBookList = res.data.hot;
-            })
-            .catch(function(){
-                console.error('数据请求错误');
-            });
+                axios.get('../../../static/HomeData.json')
+                .then( (res) => {
+                    // 如果请求成功，将bookList空数组替换为请求到的数组
+                    this.newBookList = res.data.new;
+                    this.editorBookList = res.data.editor;
+                    this.hotBookList = res.data.hot;
+                })
+                .catch(function(){
+                    console.error('数据请求错误');
+                });
+            },
+            showDetail(idx, y) {
+                this.show = true;
+                this.index = idx;
+                axios.get('../../../static/HomeData.json')
+                .then( (res) => {
+                    // console.log(res.data)
+                    if(y=="newBookList"){
+                    this.bookDetail = res.data.new[idx]; 
+                    }
+                    else if(y=="editorBookList"){
+                    this.bookDetail = res.data.editor[idx]; 
+                    }
+                    else{
+                    this.bookDetail = res.data.hot[idx]; 
+                    }
+                })
+                .catch(function() {
+                    console.error("数据请求错误");
+                }) 
+            },
+            closeDetail(){
+                this.show=false
             }
-            
-            
         },
         mounted(){
             this.runSwiper(),
@@ -88,6 +121,12 @@
 </script>
     
 <style lang="scss" scoped>
+    .fade-enter-active,.fade-leave-active {
+            transition: opacity 0.6s;
+        }
+        .fade-enter,.fade-leave-to {
+            opacity: 0;
+        }
     .swiper-container {
         width: 100%;
         height: 174px;

@@ -4,6 +4,7 @@ import Home from '@/page/home/Home'
 import Category from '@/page/category/Category'
 import Cart from '@/page/cart/Cart'
 import Me from '@/page/me/Me'
+import DetailsPage from '@/page/home/DetailsPage'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
             name: 'Me',
             component: Me
         },
+        {
+            path:'./DetailsPage',
+            name:'DetailsPage',
+            component: DetailsPage
+        }
         
     ],
     linkActiveClass: 'acitve'
